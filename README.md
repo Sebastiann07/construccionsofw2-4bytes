@@ -1,2 +1,10 @@
 # construccionsofw2-4bytes
-##paz
+
+## Integrantes
+### Keyli Michell Londoño
+### Omar Tamara
+### Sebastián Sánchez Parra
+### Miguel Ángel Quintero
+
+## Tecnologia 
+Java Springboot
