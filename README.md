@@ -1,9 +1,8 @@
-# construccionsofw2-4bytes
+# construccionsofw2-Clinic
 
-## Integrantes
-### Omar Tamara
+## Integrante
+
 ### Sebastián Sánchez Parra
-### Miguel Ángel Quintero
 
 ## Tecnologia 
 Java Springboot
