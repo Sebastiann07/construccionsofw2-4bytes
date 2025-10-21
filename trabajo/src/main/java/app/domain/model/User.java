@@ -2,6 +2,7 @@ package app.domain.model;
 
 import app.domain.model.enums.Role;
 
+
 public class User extends Person {
 
     private String username;     // Nombre de usuario único

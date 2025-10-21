@@ -1,2 +1,8 @@
-# construccionsofw2-4bytes
-##paz
+# construccionsofw2-Clinic
+
+## Integrante
+
+### Sebastián Sánchez Parra
+
+## Tecnologia 
+Java Springboot
