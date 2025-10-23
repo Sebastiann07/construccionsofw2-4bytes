@@ -2,7 +2,9 @@
 
 ## Integrante
 
-### Sebastián Sánchez Parra
+### Sebastián David Sánchez Parra
+
+### Miguel Ángel Quintero Jaramillo
 
 ## Tecnologia 
 Java Springboot
