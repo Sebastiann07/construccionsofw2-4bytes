@@ -20,9 +20,6 @@ public class CreatePatient {
 		if (patientPort.findById(patient.getId()) != null) { 
 			throw new Exception("Ya existe una persona con este documento");
 		}
-		if (patientPort.findByFullName(patient.getFullName()) != null) {
-			throw new Exception("Ya existe una persona con este nombre");
-		}
 		patientPort.save(patient);
 		}
 
