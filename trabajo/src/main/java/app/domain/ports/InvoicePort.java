@@ -2,6 +2,9 @@ package app.domain.ports;
 
 import app.domain.model.Invoice;
 
+/**
+ * Define operaciones de persistencia para facturas.
+ */
 public interface InvoicePort {
-    public void save(Invoice invoice) throws Exception;
+    void save(Invoice invoice) throws Exception;
 }
