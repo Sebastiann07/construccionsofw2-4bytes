@@ -2,7 +2,10 @@ package app.domain.ports;
 
 import app.domain.model.Insurance;
 
+/**
+ * Contrato para la gestión de pólizas de seguros de pacientes.
+ */
 public interface InsurancePort {
-    public void save(Insurance insurance) throws Exception;
-    public Insurance findByPolicyNumber(String policyNumber) throws Exception;
+    Insurance findByPolicyNumber(String policyNumber) throws Exception;
+    void save(Insurance insurance) throws Exception;
 }

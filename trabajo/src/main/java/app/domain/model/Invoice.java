@@ -2,35 +2,47 @@ package app.domain.model;
 
 import java.util.List;
 
+/**
+ * Represents an invoice for a patient visit or procedure.
+ * Contains details, billing breakdown, and insurance data.
+ */
 public class Invoice {
-    private Patient Patient;
-    private User doctorName;
+    private String invoiceNumber;    // Unique invoice identifier
+    private Patient patient;
+    private User doctor;
     private Insurance insurance;
     private List<InvoiceDetail> details; 
 
-    // Datos de cobro
-    private double totalAmount;  // Total general de la factura
-    private double copay;         // Valor del copago aplicado
-    private double insurerCharge; // Valor asumido por la aseguradora
+    // Billing data
+    private double totalAmount;
+    private double copay;
+    private double insurerCharge;
 
     public Invoice() {}
 
-    // === Getters y Setters ===
+    // === Getters & Setters ===
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
     public Patient getPatient() {
-        return Patient;
+        return patient;
     }
     public void setPatient(Patient patient) {
-        Patient = patient;
+        this.patient = patient;
     }
 
-        public User getDoctorName() {
-        return doctorName;
+    public User getDoctor() {
+        return doctor;
     }
-    public void setDoctorName(User doctorName) {
-        this.doctorName = doctorName;
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 
-        public Insurance getInsurance() {
+    public Insurance getInsurance() {
         return insurance;
     }
     public void setInsurance(Insurance insurance) {

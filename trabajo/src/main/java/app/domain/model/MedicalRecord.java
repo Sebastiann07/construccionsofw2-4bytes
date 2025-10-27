@@ -1,16 +1,28 @@
 package app.domain.model;
 
+/**
+ * Representa la historia clínica de un paciente.
+ * Cada registro se asocia a un paciente y a un médico responsable.
+ */
 public class MedicalRecord {
 
-    private String date;                // Fecha de atención (clave del registro)
-    private String doctorId;            // Cédula del médico que atendió (máx. 10 dígitos)
+    private String patientId;           // Cédula o ID del paciente (clave principal del paciente)
+    private String date;                // Fecha de atención
+    private String doctorId;            // Cédula del médico que atendió
     private String reasonForVisit;      // Motivo de la consulta
     private String symptoms;            // Sintomatología
     private String diagnosis;           // Diagnóstico final
 
-    public MedicalRecord() {}  // Constructor vacío (Fase 1)
+    public MedicalRecord() {}
 
     // === Getters y Setters ===
+    public String getPatientId() {
+        return patientId;
+    }
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
     public String getDate() {
         return date;
     }
