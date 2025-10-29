@@ -17,7 +17,7 @@ public class CreateEmergencyContact {
         this.emergencyContactPort = emergencyContactPort;
     }
 
-    public void create(EmergencyContact contact) throws Exception {
+    public void createEmergencyContact(EmergencyContact contact) throws Exception {
         if (contact == null) {
             throw new Exception("El contacto de emergencia no puede ser nulo");
         }

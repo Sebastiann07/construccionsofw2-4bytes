@@ -21,4 +21,9 @@ public interface UserPort {
      * Busca un usuario por su nombre de usuario (username).
      */
     User findByUsername(String username) throws Exception;
+
+    /**
+     * Elimina un usuario
+     */
+    User delete(User user) throws Exception;
 }

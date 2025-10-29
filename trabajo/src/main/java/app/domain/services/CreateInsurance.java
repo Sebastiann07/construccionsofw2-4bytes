@@ -17,7 +17,7 @@ public class CreateInsurance {
         this.insurancePort = insurancePort;
     }
 
-    public void create(Insurance insurance) throws Exception {
+    public void createInsurance(Insurance insurance) throws Exception {
         if (insurance == null) {
             throw new Exception("El seguro no puede ser nulo");
         }
@@ -32,4 +32,5 @@ public class CreateInsurance {
 
         insurancePort.save(insurance);
     }
+
 }

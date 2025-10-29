@@ -18,7 +18,7 @@ public class CreatePatient {
         this.patientPort = patientPort;
     }
 
-    public void create(Patient patient) throws Exception {
+    public void createPatient(Patient patient) throws Exception {
         if (patient == null) {
             throw new Exception("El paciente no puede ser nulo");
         }
