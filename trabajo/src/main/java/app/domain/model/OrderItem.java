@@ -1,40 +1,41 @@
 package app.domain.model;
 
-import app.domain.model.enums.ItemType;
-
+/**
+ * Representa un ítem dentro de una orden médica.
+ * Puede ser un medicamento, procedimiento o ayuda diagnóstica.
+ */
 public class OrderItem {
 
-    private int itemNumber;         // Número interno del ítem dentro de la orden
-    private ItemType type;     // Tipo (MEDICATION, PROCEDURE, EXAM)
-    private String referenceId;     // ID del inventario relacionado
-    private int quantity;           // Cantidad aplicada
-    private String dosage;          // Medicamentos
-    private String frequency;       // Procedimientos repetitivos
-    private boolean specialistRequired;
-    private String specialistType;  // Si aplica
+    private String itemType;       // Tipo de ítem: "MEDICINE", "PROCEDURE", "DIAGNOSTIC_HELP"
+    private String itemName;       // Nombre del ítem (por ejemplo: "Paracetamol", "Radiografía")
+    private String description;    // Descripción o detalle adicional
+    private int quantity;          // Cantidad o número de aplicaciones
+    private double cost;           // Costo individual del ítem
+    private double total;          // Costo total (quantity * cost)
 
     public OrderItem() {}
 
-    // === Getters / Setters ===
-    public int getItemNumber() {
-        return itemNumber;
+    // === Getters y Setters ===
+
+    public String getItemType() {
+        return itemType;
     }
-    public void setItemNumber(int itemNumber) {
-        this.itemNumber = itemNumber;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
-    public ItemType getType() {
-        return type;
+    public String getItemName() {
+        return itemName;
     }
-    public void setType(ItemType type) {
-        this.type = type;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public String getReferenceId() {
-        return referenceId;
+    public String getDescription() {
+        return description;
     }
-    public void setReferenceId(String referenceId) {
-        this.referenceId = referenceId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getQuantity() {
@@ -44,31 +45,25 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public String getDosage() {
-        return dosage;
+    public double getCost() {
+        return cost;
     }
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
-    }
-
-    public String getFrequency() {
-        return frequency;
-    }
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
-    public boolean isSpecialistRequired() {
-        return specialistRequired;
+    public double getTotal() {
+        return total;
     }
-    public void setSpecialistRequired(boolean specialistRequired) {
-        this.specialistRequired = specialistRequired;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
-    public String getSpecialistType() {
-        return specialistType;
-    }
-    public void setSpecialistType(String specialistType) {
-        this.specialistType = specialistType;
+    // === Métodos de apoyo ===
+    /**
+     * Calcula automáticamente el costo total del ítem.
+     */
+    public void calculateTotal() {
+        this.total = this.cost * this.quantity;
     }
 }

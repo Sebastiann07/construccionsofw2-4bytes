@@ -1,36 +1,52 @@
 package app.domain.model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 public class MedicalOrder {
 
-    private long id;                        // Número de orden (6 dígitos máximo)
-    private Patient patient;                // Paciente al que pertenece la orden
-    private User doctor;                    // Doctor que emite la orden
-    private LocalDate date;                 // Fecha de creación de la orden
+    private String orderNumber;
+    private String patientId;
+    private String doctorId;
+    private String date;
+    private String observations;
+    private User doctor;
+    private Patient patient;
 
-    private List<OrderItem> items;   // Ítems clínicos asociados (med., proc., exámenes)
+    public MedicalOrder() {}
 
-    public MedicalOrder() {
-        this.items = new ArrayList<>();
-        this.date = LocalDate.now();
+    // === Getters y Setters ===
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
-    // ==== Getters y Setters ====
-    public long getId() {
-        return id;
+    public String getPatientId() {
+        return patientId;
     }
-    public void setId(long id) {
-        this.id = id;
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public String getDoctorId() {
+        return doctorId;
     }
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+    public void setObservations(String observations) {
+        this.observations = observations;
     }
 
     public User getDoctor() {
@@ -40,23 +56,10 @@ public class MedicalOrder {
         this.doctor = doctor;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Patient getPatient() {
+        return patient;
     }
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
-
-    public List<OrderItem> getItems() {
-        return items;
-    }
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
-
-    // Helper para agregar ítems individualmente
-    public void addItem(OrderItem item) {
-        this.items.add(item);
-    }
-
 }

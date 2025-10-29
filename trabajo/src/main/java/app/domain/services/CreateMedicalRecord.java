@@ -1,42 +1,39 @@
 package app.domain.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import app.domain.model.MedicalRecord;
 import app.domain.ports.MedicalRecordPort;
 
 /**
- * Servicio de dominio encargado de crear registros de historia clínica.
- * Valida la información básica antes de delegar la persistencia al puerto.
+ * Caso de uso: registrar el historial médico de un paciente.
  */
 @Service
 public class CreateMedicalRecord {
 
-    @Autowired
-    private MedicalRecordPort medicalRecordPort;
+    private final MedicalRecordPort medicalRecordPort;
 
     public CreateMedicalRecord(MedicalRecordPort medicalRecordPort) {
         this.medicalRecordPort = medicalRecordPort;
     }
 
-    public void createMedicalRecord(MedicalRecord record) throws Exception {
-        // Validación: el registro no puede ser nulo
+    public void create(MedicalRecord record) throws Exception {
         if (record == null) {
-            throw new Exception("La historia clínica no puede ser nula");
+            throw new Exception("El registro médico no puede ser nulo");
         }
 
-        // Validación: el ID del paciente es obligatorio
-        if (record.getPatientId() == null || record.getPatientId().isEmpty()) {
-            throw new Exception("La historia clínica debe estar asociada a un paciente válido");
+        if (record.getDoctorId() == null || record.getDoctorId().isEmpty()) {
+            throw new Exception("Debe especificar un ID de médico válido");
         }
 
-        // Validación: la fecha también es requerida
+        if (record.getDiagnosis() == null || record.getDiagnosis().isEmpty()) {
+            throw new Exception("Debe especificar un diagnóstico válido");
+        }
+
         if (record.getDate() == null || record.getDate().isEmpty()) {
-            throw new Exception("La historia clínica debe tener una fecha de atención válida");
+            throw new Exception("Debe especificar la fecha del registro");
         }
 
-        // Si pasa las validaciones, se guarda mediante el puerto
         medicalRecordPort.save(record);
     }
 }

@@ -2,9 +2,19 @@ package app.domain.ports;
 
 import app.domain.model.Patient;
 
+/**
+ * Puerto del dominio para la gestión de pacientes.
+ */
 public interface PatientPort {
 
-    public Patient findById(long id) throws Exception;
+    /**
+     * Guarda un nuevo paciente.
+     */
+    void save(Patient patient) throws Exception;
 
-    public void save(Patient patient) throws Exception;
+    /**
+     * Busca un paciente por su ID.
+     */
+    Patient findById(long id) throws Exception;
+
 }

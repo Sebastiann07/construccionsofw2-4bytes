@@ -3,9 +3,17 @@ package app.domain.ports;
 import app.domain.model.Insurance;
 
 /**
- * Contrato para la gestión de pólizas de seguros de pacientes.
+ * Puerto del dominio para la gestión de seguros médicos.
  */
 public interface InsurancePort {
-    Insurance findByPolicyNumber(String policyNumber) throws Exception;
+
+    /**
+     * Guarda la información de un seguro médico.
+     */
     void save(Insurance insurance) throws Exception;
+
+    /**
+     * Busca un seguro médico por su número de póliza.
+     */
+    Insurance findByPolicyNumber(String policyNumber) throws Exception;
 }
