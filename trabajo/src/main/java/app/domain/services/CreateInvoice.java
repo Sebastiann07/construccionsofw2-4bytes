@@ -1,6 +1,5 @@
 package app.domain.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import app.domain.model.Invoice;
@@ -13,8 +12,8 @@ import app.domain.ports.InvoicePort;
 @Service
 public class CreateInvoice {
 
-    @Autowired
-    private InvoicePort invoicePort;
+    private final InvoicePort invoicePort;
+
 
     public CreateInvoice(InvoicePort invoicePort) {
         this.invoicePort = invoicePort;

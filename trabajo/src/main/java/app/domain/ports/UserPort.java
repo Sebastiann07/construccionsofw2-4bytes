@@ -1,11 +1,24 @@
 package app.domain.ports;
 
 import app.domain.model.User;
+
 /**
-* Define el contrato de persistencia para los usuarios del sistema.
+ * Puerto del dominio para los usuarios del sistema (médicos, enfermeros, administrativos, etc.).
  */
 public interface UserPort {
-    User findById(long id) throws Exception;
-    User findByUsername(String username) throws Exception;
+
+    /**
+     * Guarda un nuevo usuario.
+     */
     void save(User user) throws Exception;
+
+    /**
+     * Busca un usuario por su ID.
+     */
+    User findById(long id) throws Exception;
+
+    /**
+     * Busca un usuario por su nombre de usuario (username).
+     */
+    User findByUsername(String username) throws Exception;
 }
