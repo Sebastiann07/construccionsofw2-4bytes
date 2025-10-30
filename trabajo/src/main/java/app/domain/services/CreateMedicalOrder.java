@@ -67,7 +67,7 @@ public class CreateMedicalOrder {
         String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         order.setDate(currentDate);
 
-        // Asociar entidades (opcional, si tu modelo lo soporta)
+        // Asociar entidades 
         order.setDoctor(doctor);
         order.setPatient(patient);
 

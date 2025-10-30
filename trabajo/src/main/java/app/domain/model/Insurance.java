@@ -37,4 +37,14 @@ public class Insurance {
     public void setPolicyEndDate(String policyEndDate) {
         this.policyEndDate = policyEndDate;
     }
+    private double annualCopayTotal = 0.0;
+
+    public double getAnnualCopayTotal() {
+        return annualCopayTotal;
+    }
+
+    public void setAnnualCopayTotal(double annualCopayTotal) {
+        this.annualCopayTotal = annualCopayTotal;
+}
+
 }
