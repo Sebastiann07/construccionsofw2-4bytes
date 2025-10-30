@@ -3,20 +3,22 @@ package app.domain.model;
 import java.util.List;
 
 /**
- * Represents an invoice for a patient visit or procedure.
- * Contains details, billing breakdown, and insurance data.
+ * Representa una factura generada por la atención de un paciente,
+ * ya sea por una visita, procedimiento o tratamiento médico.
+ * Contiene información del paciente, del médico, de la aseguradora,
+ * así como el desglose de los servicios y los valores cobrados.
  */
 public class Invoice {
-    private String invoiceNumber;    // Unique invoice identifier
-    private Patient patient;
-    private User doctor;
-    private Insurance insurance;
-    private List<InvoiceDetail> details; 
+    private String invoiceNumber;    // Identificador único de la factura
+    private Patient patient;         // Paciente al que pertenece la factura
+    private User doctor;             // Médico responsable de la atención
+    private Insurance insurance;     // Información de la aseguradora asociada
+    private List<InvoiceDetail> details; // Lista de detalles de la factura (procedimientos, medicamentos, etc.)
 
     // Billing data
-    private double totalAmount;
-    private double copay;
-    private double insurerCharge;
+    private double totalAmount;      // Valor total de los servicios facturados
+    private double copay;            // Valor del copago que debe asumir el paciente
+    private double insurerCharge;    // Valor asumido por la aseguradora
 
     public Invoice() {}
 
