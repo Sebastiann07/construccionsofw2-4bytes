@@ -31,7 +31,6 @@ public class AdminUseCase {
 
     /**
      * Crear paciente (orquesta el servicio de dominio).
-     * Nota: el profe usó User como DTO/objeto para este método; adaptar si en tu proyecto usas Patient.
      */
     public void createPatient(Patient patient) throws Exception {
         createPatient.createPatient(patient);
