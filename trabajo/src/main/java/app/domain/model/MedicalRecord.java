@@ -8,14 +8,24 @@ import java.util.Map;
  */
 public class MedicalRecord {
 
+    private String id;                      // Identificador único del registro
     private String patientId;               // Identificador del paciente
     private Map<String, Object> data;       // Contenido flexible del historial (no estructurado)
 
     public MedicalRecord() {}
 
-    public MedicalRecord(String patientId, Map<String, Object> data) {
+    public MedicalRecord(String id, String patientId, Map<String, Object> data) {
+        this.id = id;
         this.patientId = patientId;
         this.data = data;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPatientId() {

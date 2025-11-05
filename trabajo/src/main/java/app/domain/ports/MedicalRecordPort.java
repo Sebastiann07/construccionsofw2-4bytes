@@ -18,4 +18,9 @@ public interface MedicalRecordPort {
      * Busca un registro médico por el ID del paciente.
      */
     Optional<MedicalRecord> findByPatientId(String patientId) throws Exception;
+
+    /**
+     * Actualiza un registro médico.
+     */
+    void update(MedicalRecord record) throws Exception;
 }

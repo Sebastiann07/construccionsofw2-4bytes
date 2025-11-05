@@ -17,4 +17,8 @@ public interface PatientPort {
      */
     Patient findById(long id) throws Exception;
 
+    /**
+     * Actualiza un paciente existente.
+     */
+    void update(Patient patient) throws Exception;
 }

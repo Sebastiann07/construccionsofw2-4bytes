@@ -2,6 +2,7 @@ package app.domain.model;
 
 public class Medicine {
 
+    private String medicineId;
     private int orderNumber;         // Número de orden (máximo 6 dígitos)
     private int itemNumber;          // Número del ítem dentro de la orden
     private String medicineName;     // Nombre del medicamento
@@ -12,6 +13,14 @@ public class Medicine {
     public Medicine() {}  // Constructor vacío
 
     // === Getters y Setters ===
+    public String getMedicineId() {
+        return medicineId;
+    }
+
+    public void setMedicineId(String medicineId) {
+        this.medicineId = medicineId;
+    }
+
     public int getOrderNumber() {
         return orderNumber;
     }

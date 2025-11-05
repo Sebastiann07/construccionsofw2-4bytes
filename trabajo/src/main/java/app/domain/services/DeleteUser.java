@@ -16,16 +16,16 @@ public class DeleteUser {
         this.userPort = userPort;
     }
 
-    public void delete(User user) throws Exception {
-        if (user == null) {
-            throw new Exception("Debe especificar un usuario para eliminar");
+    public void delete(String userId) throws Exception {
+        if (userId == null || userId.trim().isEmpty()) {
+            throw new Exception("Debe especificar un ID de usuario para eliminar");
         }
 
-        User existingUser = userPort.findByUsername(user.getUsername());
+        User existingUser = userPort.findById(userId);
         if (existingUser == null) {
             throw new Exception("El usuario no existe en el sistema");
         }
 
-        userPort.delete(user);
+        userPort.delete(existingUser);
     }
 }

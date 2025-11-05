@@ -2,12 +2,13 @@ package app.application.usecases;
 
 import org.springframework.stereotype.Service;
 
+import app.domain.model.DiagnosticHelp;
+import app.domain.model.MedicalRecord;
 import app.domain.model.VitalSigns;
-import app.domain.model.Medicine;
-import app.domain.model.Procedure;
+import app.domain.services.CreateDiagnosticHelp;
 import app.domain.services.CreateVitalSigns;
-import app.domain.services.CreateMedicine;
-import app.domain.services.CreateProcedure;
+import app.domain.services.UpdateMedicalRecord;
+import app.domain.services.UpdateOrderItemStatus;
 
 /**
  * Caso de uso: Enfermera.
@@ -17,35 +18,47 @@ import app.domain.services.CreateProcedure;
 public class NurseUseCase {
 
     private final CreateVitalSigns createVitalSigns;
-    private final CreateMedicine createMedicine;
-    private final CreateProcedure createProcedure;
+    private final UpdateOrderItemStatus updateOrderItemStatus;
+    private final CreateDiagnosticHelp createDiagnosticHelp;
+    private final UpdateMedicalRecord updateMedicalRecord;
 
     public NurseUseCase(CreateVitalSigns createVitalSigns,
-                        CreateMedicine createMedicine,
-                        CreateProcedure createProcedure) {
+                        UpdateOrderItemStatus updateOrderItemStatus,
+                        CreateDiagnosticHelp createDiagnosticHelp,
+                        UpdateMedicalRecord updateMedicalRecord) {
         this.createVitalSigns = createVitalSigns;
-        this.createMedicine = createMedicine;
-        this.createProcedure = createProcedure;
+        this.updateOrderItemStatus = updateOrderItemStatus;
+        this.createDiagnosticHelp = createDiagnosticHelp;
+        this.updateMedicalRecord = updateMedicalRecord;
     }
 
     /**
      * Registrar los signos vitales de un paciente.
      */
-    public void createVitalSigns(VitalSigns vitalSigns) throws Exception {
+    public void recordVitalSigns(VitalSigns vitalSigns) throws Exception {
         createVitalSigns.create(vitalSigns);
     }
 
     /**
-     * Registrar un medicamento administrado a un paciente.
+     * Registrar la administración de un medicamento o la realización de un procedimiento.
+     * @param orderItemId El ID del ítem de la orden (medicamento o procedimiento).
+     * @param notes Observaciones de la enfermera.
      */
-    public void createMedicine(Medicine medicine) throws Exception {
-        createMedicine.create(medicine);
+    public void administerOrderItem(String orderItemId, String notes) throws Exception {
+        updateOrderItemStatus.updateStatus(orderItemId, "ADMINISTERED", notes);
     }
 
     /**
-     * Registrar un procedimiento realizado a un paciente.
+     * Registrar una prueba de diagnóstico realizada a un paciente.
      */
-    public void createProcedure(Procedure procedure) throws Exception {
-        createProcedure.create(procedure);
+    public void recordDiagnosticTest(DiagnosticHelp diagnosticHelp) throws Exception {
+        createDiagnosticHelp.create(diagnosticHelp);
+    }
+
+    /**
+     * Añade una observación al historial médico del paciente.
+     */
+    public void addObservationToMedicalRecord(MedicalRecord record) throws Exception {
+        updateMedicalRecord.update(record);
     }
 }

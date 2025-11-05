@@ -15,7 +15,7 @@ public interface UserPort {
     /**
      * Busca un usuario por su ID.
      */
-    User findById(long id) throws Exception;
+    User findById(String id) throws Exception;
 
     /**
      * Busca un usuario por su nombre de usuario (username).
