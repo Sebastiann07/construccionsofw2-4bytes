@@ -3,12 +3,14 @@ package app.domain.model;
 public class Procedure {
 
     private int orderNumber;             // Número de orden (máx. 6 dígitos)
+    private int itemNumber;              // Número de ítem
     private String procedureId;          // ID del procedimiento (desde inventario)
-    private int quantity;                // Cantidad de veces que se realiza
+    private String procedureName;        // Nombre del procedimiento
+    private int quantity;                // Número de veces que se repite
     private String frequency;            // Frecuencia con la que se repite
-    private boolean requiresSpecialist;  // Si requiere especialista
-    private String specialistTypeId;     // ID del tipo de especialista (si aplica)
-    private int itemNumber;              // Ítem de referencia dentro de la orden
+    private double cost;                 // Costo del procedimiento
+    private boolean requiresSpecialist;  // Si requiere asistencia de especialista
+    private String specialistTypeId;     // ID del tipo de especialidad
 
     public Procedure() {}  // Constructor vacío (fase 1)
 
@@ -20,11 +22,25 @@ public class Procedure {
         this.orderNumber = orderNumber;
     }
 
+    public int getItemNumber() {
+        return itemNumber;
+    }
+    public void setItemNumber(int itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
     public String getProcedureId() {
         return procedureId;
     }
     public void setProcedureId(String procedureId) {
         this.procedureId = procedureId;
+    }
+
+    public String getProcedureName() {
+        return procedureName;
+    }
+    public void setProcedureName(String procedureName) {
+        this.procedureName = procedureName;
     }
 
     public int getQuantity() {
@@ -41,6 +57,13 @@ public class Procedure {
         this.frequency = frequency;
     }
 
+    public double getCost() {
+        return cost;
+    }
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
     public boolean isRequiresSpecialist() {
         return requiresSpecialist;
     }
@@ -53,12 +76,5 @@ public class Procedure {
     }
     public void setSpecialistTypeId(String specialistTypeId) {
         this.specialistTypeId = specialistTypeId;
-    }
-
-    public int getItemNumber() {
-        return itemNumber;
-    }
-    public void setItemNumber(int itemNumber) {
-        this.itemNumber = itemNumber;
     }
 }

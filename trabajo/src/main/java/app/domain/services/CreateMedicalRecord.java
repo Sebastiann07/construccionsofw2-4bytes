@@ -22,16 +22,12 @@ public class CreateMedicalRecord {
             throw new Exception("El registro médico no puede ser nulo");
         }
 
-        if (record.getDoctorId() == null || record.getDoctorId().isEmpty()) {
-            throw new Exception("Debe especificar un ID de médico válido");
+        if (record.getPatientId() == null || record.getPatientId().isEmpty()) {
+            throw new Exception("Debe especificar el ID del paciente");
         }
 
-        if (record.getDiagnosis() == null || record.getDiagnosis().isEmpty()) {
-            throw new Exception("Debe especificar un diagnóstico válido");
-        }
-
-        if (record.getDate() == null || record.getDate().isEmpty()) {
-            throw new Exception("Debe especificar la fecha del registro");
+        if (record.getData() == null || record.getData().isEmpty()) {
+            throw new Exception("Debe incluir información en la historia clínica");
         }
 
         medicalRecordPort.save(record);

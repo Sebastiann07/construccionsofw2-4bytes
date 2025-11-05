@@ -2,12 +2,14 @@ package app.domain.model;
 
 public class DiagnosticHelp {
 
-    private int orderNumber;          // Número de orden (máx. 6 dígitos)
-    private String diagnosticId;      // Id del examen en el inventario
-    private int quantity;             // Cantidad
-    private boolean requiresSpecialist; // Si requiere especialista
-    private String specialistTypeId;  // Id del tipo de especialista (si aplica)
-    private int itemNumber;           // Ítem dentro de la orden
+    private int orderNumber;              // Número de orden (máx. 6 dígitos)
+    private int itemNumber;               // Número de ítem
+    private String diagnosticId;          // ID de la ayuda diagnóstica (desde inventario)
+    private String diagnosticName;        // Nombre de la ayuda diagnóstica
+    private int quantity;                 // Cantidad
+    private double cost;                  // Costo
+    private boolean requiresSpecialist;   // Si requiere especialista
+    private String specialistTypeId;      // ID del tipo de especialidad (si aplica)
 
     public DiagnosticHelp() {}
 
@@ -19,6 +21,13 @@ public class DiagnosticHelp {
         this.orderNumber = orderNumber;
     }
 
+    public int getItemNumber() {
+        return itemNumber;
+    }
+    public void setItemNumber(int itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
     public String getDiagnosticId() {
         return diagnosticId;
     }
@@ -26,11 +35,25 @@ public class DiagnosticHelp {
         this.diagnosticId = diagnosticId;
     }
 
+    public String getDiagnosticName() {
+        return diagnosticName;
+    }
+    public void setDiagnosticName(String diagnosticName) {
+        this.diagnosticName = diagnosticName;
+    }
+
     public int getQuantity() {
         return quantity;
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     public boolean isRequiresSpecialist() {
@@ -45,12 +68,5 @@ public class DiagnosticHelp {
     }
     public void setSpecialistTypeId(String specialistTypeId) {
         this.specialistTypeId = specialistTypeId;
-    }
-
-    public int getItemNumber() {
-        return itemNumber;
-    }
-    public void setItemNumber(int itemNumber) {
-        this.itemNumber = itemNumber;
     }
 }
