@@ -1,5 +1,7 @@
 package app.domain.ports;
 
+import java.util.Optional;
+
 import app.domain.model.MedicalRecord;
 
 /**
@@ -13,7 +15,7 @@ public interface MedicalRecordPort {
     void save(MedicalRecord record) throws Exception;
 
     /**
-     * Busca el historial médico por ID del paciente o por fecha.
+     * Busca un registro médico por el ID del paciente.
      */
-    MedicalRecord findByDate(String date) throws Exception;
+    Optional<MedicalRecord> findByPatientId(String patientId) throws Exception;
 }
