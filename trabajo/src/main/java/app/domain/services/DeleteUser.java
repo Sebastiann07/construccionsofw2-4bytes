@@ -16,8 +16,8 @@ public class DeleteUser {
         this.userPort = userPort;
     }
 
-    public void delete(String userId) throws Exception {
-        if (userId == null || userId.trim().isEmpty()) {
+    public void delete(long userId) throws Exception {
+        if (userId <= 0) {
             throw new Exception("Debe especificar un ID de usuario para eliminar");
         }
 
