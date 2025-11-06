@@ -15,7 +15,7 @@ public interface UserPort {
     /**
      * Busca un usuario por su ID.
      */
-    User findById(String id) throws Exception;
+    User findById(long id) throws Exception;
 
     /**
      * Busca un usuario por su nombre de usuario (username).
@@ -26,4 +26,9 @@ public interface UserPort {
      * Elimina un usuario
      */
     User delete(User user) throws Exception;
+
+    /**
+     * Actualiza un usuario existente.
+     */
+    void update(User user) throws Exception;
 }

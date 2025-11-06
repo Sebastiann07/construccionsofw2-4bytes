@@ -12,9 +12,7 @@ import app.domain.services.CreateEmergencyContact;
 import app.domain.services.CreateInsurance;
 import app.domain.services.CreateInvoice;
 import app.domain.services.CreatePatient;
-import app.domain.services.CreateUser;
 import app.domain.services.CreateVisit;
-import app.domain.services.DeleteUser;
 import app.domain.services.UpdatePatient;
 import app.domain.services.UpdateUser;
 
@@ -27,9 +25,7 @@ public class AdminUseCase {
     private final CreateEmergencyContact createEmergencyContact;
     private final CreateInsurance createInsurance;
     private final CreateVisit createVisit;
-    private final CreateUser createUser;
     private final UpdateUser updateUser;
-    private final DeleteUser deleteUser;
 
     public AdminUseCase(CreatePatient createPatient,
                         UpdatePatient updatePatient,
@@ -37,18 +33,14 @@ public class AdminUseCase {
                         CreateEmergencyContact createEmergencyContact,
                         CreateInsurance createInsurance,
                         CreateVisit createVisit,
-                        CreateUser createUser,
-                        UpdateUser updateUser,
-                        DeleteUser deleteUser) {
+                        UpdateUser updateUser) {
         this.createPatient = createPatient;
         this.updatePatient = updatePatient;
         this.createInvoice = createInvoice;
         this.createEmergencyContact = createEmergencyContact;
         this.createInsurance = createInsurance;
         this.createVisit = createVisit;
-        this.createUser = createUser;
         this.updateUser = updateUser;
-        this.deleteUser = deleteUser;
     }
 
     /**
@@ -95,23 +87,10 @@ public class AdminUseCase {
     }
 
     /**
-     * Crear un nuevo usuario en el sistema (médico, enfermera, etc.).
-     */
-    public void createUser(User user) throws Exception {
-        createUser.create(user);
-    }
-
-    /**
      * Actualizar un usuario existente.
      */
     public void updateUser(User user) throws Exception {
         updateUser.update(user);
     }
 
-    /**
-     * Eliminar un usuario del sistema.
-     */
-    public void deleteUser(String userId) throws Exception {
-        deleteUser.delete(userId);
-    }
 }

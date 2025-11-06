@@ -14,8 +14,8 @@ public class UpdatePatient {
     }
 
     public void updatePatient(Patient patient) throws Exception {
-        if (patient == null || patient.getId() == null) {
-            throw new Exception("Patient or its ID cannot be null for update.");
+        if (patient == null) {
+            throw new Exception("El paciente no puede ser nulo");
         }
         patientPort.update(patient);
     }

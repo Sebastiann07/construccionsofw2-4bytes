@@ -26,6 +26,6 @@ public class UpdateUser {
             throw new Exception("No existe un usuario con este nombre");
         }
 
-        userPort.save(user); // Reutilizamos save() para actualizar
+        userPort.update(user); // Reutilizamos update() para actualizar
     }
 }
