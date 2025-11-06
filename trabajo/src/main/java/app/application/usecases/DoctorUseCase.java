@@ -7,13 +7,11 @@ import app.domain.model.MedicalRecord;
 import app.domain.model.MedicalOrder;
 import app.domain.model.Medicine;
 import app.domain.model.Procedure;
-import app.domain.model.VitalSigns;
 import app.domain.services.CreateDiagnosticHelp;
 import app.domain.services.CreateMedicalRecord;
 import app.domain.services.CreateMedicalOrder;
 import app.domain.services.CreateMedicine;
 import app.domain.services.CreateProcedure;
-import app.domain.services.CreateVitalSigns;
 import app.domain.services.UpdateMedicalRecord;
 
 @Service

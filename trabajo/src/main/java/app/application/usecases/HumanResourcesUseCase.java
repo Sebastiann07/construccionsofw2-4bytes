@@ -48,11 +48,7 @@ public class HumanResourcesUseCase {
     /**
      * Eliminar un usuario del sistema.
      */
-    public void deleteUser(User user) throws Exception {
-        if (user == null) {
-            throw new Exception("Debe especificar un usuario para eliminar");
-        }
-
-        deleteUser.delete(user);
+    public void deleteUser(String userId) throws Exception {
+        deleteUser.delete(userId);
     }
 }
