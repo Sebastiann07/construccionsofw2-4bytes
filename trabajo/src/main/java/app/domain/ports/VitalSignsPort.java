@@ -10,7 +10,7 @@ public interface VitalSignsPort {
     /**
      * Guarda un nuevo registro de signos vitales.
      */
-    void save(VitalSigns vitalSigns) throws Exception;
+    void save(long patientId, VitalSigns vitalSigns) throws Exception;
 
     /**
      * Busca los signos vitales de un paciente específico.
