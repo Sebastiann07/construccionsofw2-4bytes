@@ -17,9 +17,13 @@ public class CreateVitalSigns {
         this.vitalSignsPort = vitalSignsPort;
     }
 
-    public void create(VitalSigns vitalSigns) throws Exception {
+    public void create(long patientId, VitalSigns vitalSigns) throws Exception {
         if (vitalSigns == null) {
             throw new Exception("Los signos vitales no pueden ser nulos");
+        }
+
+        if (patientId <= 0) {
+            throw new Exception("Debe proporcionar un patientId válido");
         }
 
         if (vitalSigns.getBloodPressure() == null || vitalSigns.getBloodPressure().isEmpty()) {
@@ -38,6 +42,6 @@ public class CreateVitalSigns {
             throw new Exception("Debe ingresar un nivel de oxígeno válido");
         }
 
-        vitalSignsPort.save(vitalSigns);
+        vitalSignsPort.save(patientId, vitalSigns);
     }
 }
