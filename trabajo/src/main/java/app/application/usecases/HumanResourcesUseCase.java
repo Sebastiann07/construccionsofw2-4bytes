@@ -48,7 +48,7 @@ public class HumanResourcesUseCase {
     /**
      * Eliminar un usuario del sistema.
      */
-    public void deleteUser(String userId) throws Exception {
+    public void deleteUser(long userId) throws Exception {
         deleteUser.delete(userId);
     }
 }

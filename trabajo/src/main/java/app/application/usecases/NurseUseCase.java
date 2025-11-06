@@ -35,8 +35,8 @@ public class NurseUseCase {
     /**
      * Registrar los signos vitales de un paciente.
      */
-    public void recordVitalSigns(VitalSigns vitalSigns) throws Exception {
-        createVitalSigns.create(vitalSigns);
+    public void recordVitalSigns(long patientId, VitalSigns vitalSigns) throws Exception {
+        createVitalSigns.create(patientId, vitalSigns);
     }
 
     /**
