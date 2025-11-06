@@ -51,7 +51,7 @@ public class NurseUseCase {
     /**
      * Registrar una prueba de diagnóstico realizada a un paciente.
      */
-    public void recordDiagnosticTest(DiagnosticHelp diagnosticHelp) throws Exception {
+    public void recordDiagnosticHelp(DiagnosticHelp diagnosticHelp) throws Exception {
         createDiagnosticHelp.create(diagnosticHelp);
     }
 
