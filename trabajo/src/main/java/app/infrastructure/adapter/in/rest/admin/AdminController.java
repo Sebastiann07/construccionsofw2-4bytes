@@ -11,10 +11,11 @@ import app.domain.model.*;
 public class AdminController {
 
     private final AdminUseCase adminUseCase;
-    private final AdminMapper mapper = new AdminMapper();
+    private final AdminMapper mapper;
 
-    public AdminController(AdminUseCase adminUseCase) {
+    public AdminController(AdminUseCase adminUseCase, AdminMapper mapper) {
         this.adminUseCase = adminUseCase;
+        this.mapper = mapper;
     }
 
     @PostMapping("/patients")
@@ -67,25 +68,82 @@ public class AdminController {
     }
 
     // DTOs como clases internas para agrupar por rol
-    public static class CreatePatientRequest { public Patient patient; }
+    public static class CreatePatientRequest {
+        public String id;
+        public String fullName;
+        public String birthDate;
+        public String address;
+        public String phone;
+        public String email;
+        public String age;
+        public String gender;
+    }
     public static class CreatePatientResponse { public String message; public Patient patient; public CreatePatientResponse(String m, Patient p){this.message=m;this.patient=p;} }
 
-    public static class UpdatePatientRequest { public Patient patient; }
+    public static class UpdatePatientRequest {
+        public String id;
+        public String fullName;
+        public String birthDate;
+        public String address;
+        public String phone;
+        public String email;
+        public String age;
+        public String gender;
+    }
     public static class UpdatePatientResponse { public String message; public Patient patient; public UpdatePatientResponse(String m, Patient p){this.message=m;this.patient=p;} }
 
-    public static class CreateInvoiceRequest { public Invoice invoice; }
+    public static class CreateInvoiceRequest {
+        public String invoiceNumber;
+        public String patientId;
+        public String doctorId;
+        public String insuranceCompany;
+        public String policyNumber;
+        public String policyActive;
+        public String policyEndDate;
+        public String totalAmount;
+        public String copay;
+        public String insurerCharge;
+        // Detalles podrían venir como lista; por simplicidad mantener como está en Mapper.
+    }
     public static class CreateInvoiceResponse { public String message; public Invoice invoice; public CreateInvoiceResponse(String m, Invoice i){this.message=m;this.invoice=i;} }
 
-    public static class CreateEmergencyContactRequest { public EmergencyContact contact; }
+    public static class CreateEmergencyContactRequest {
+        public String name;
+        public String phone;
+        public String relation;
+    }
     public static class CreateEmergencyContactResponse { public String message; public EmergencyContact contact; public CreateEmergencyContactResponse(String m, EmergencyContact c){this.message=m;this.contact=c;} }
 
-    public static class CreateInsuranceRequest { public Insurance insurance; }
+    public static class CreateInsuranceRequest {
+        public String insuranceCompany;
+        public String policyNumber;
+        public String policyActive; // "true" | "false"
+        public String policyEndDate;
+    }
     public static class CreateInsuranceResponse { public String message; public Insurance insurance; public CreateInsuranceResponse(String m, Insurance i){this.message=m;this.insurance=i;} }
 
-    public static class ScheduleVisitRequest { public Visit visit; }
+    public static class ScheduleVisitRequest {
+        public String patientId;
+        public String nurseId;
+        public String bloodPressure;
+        public String temperature;
+        public String pulse;
+        public String oxygenLevel;
+    }
     public static class ScheduleVisitResponse { public String message; public Visit visit; public ScheduleVisitResponse(String m, Visit v){this.message=m;this.visit=v;} }
 
-    public static class UpdateUserRequest { public User user; }
+    public static class UpdateUserRequest {
+        public String id;
+        public String fullName;
+        public String birthDate;
+        public String address;
+        public String phone;
+        public String email;
+        public String age;
+        public String username;
+        public String password;
+        public String role;
+    }
     public static class UpdateUserResponse { public String message; public User user; public UpdateUserResponse(String m, User u){this.message=m;this.user=u;} }
 
 }
