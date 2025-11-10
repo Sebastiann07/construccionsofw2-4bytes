@@ -14,7 +14,8 @@ Sistema integral de gestión clínica desarrollado con **Spring Boot** siguiendo
 
 ## 👥 Integrantes
 
-- **Sebastián Sánchez Parra**
+- **Sebastián David Sánchez Parra**
+- **Miguel Angel Quintero Jaramillo**
 
 ## 🛠️ Tecnologías
 
