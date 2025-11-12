@@ -3,119 +3,154 @@ package app.infrastructure.adapter.in.rest.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import app.adapter.in.builder.*;
-import app.domain.model.*;
+import app.adapter.in.builder.EmergencyContactBuilder;
+import app.adapter.in.builder.InsuranceBuilder;
+import app.adapter.in.builder.InvoiceBuilder;
+import app.adapter.in.builder.PatientBuilder;
+import app.adapter.in.builder.UserBuilder;
+import app.adapter.in.builder.VisitBuilder;
+import app.adapter.in.builder.VitalSignsBuilder;
+import app.domain.model.EmergencyContact;
+import app.domain.model.Insurance;
+import app.domain.model.Invoice;
+import app.domain.model.Patient;
+import app.domain.model.User;
+import app.domain.model.Visit;
+import app.domain.model.VitalSigns;
+import app.infrastructure.adapter.in.rest.admin.request.CreateEmergencyContactRequest;
+import app.infrastructure.adapter.in.rest.admin.request.CreateInsuranceRequest;
+import app.infrastructure.adapter.in.rest.admin.request.CreateInvoiceRequest;
+import app.infrastructure.adapter.in.rest.admin.request.CreatePatientRequest;
+import app.infrastructure.adapter.in.rest.admin.request.ScheduleVisitRequest;
+import app.infrastructure.adapter.in.rest.admin.request.UpdatePatientRequest;
+import app.infrastructure.adapter.in.rest.admin.request.UpdateUserRequest;
 
 @Component
 public class AdminMapper {
 
     @Autowired private PatientBuilder patientBuilder;
-    @Autowired private InvoiceBuilder invoiceBuilder;
-    @Autowired private EmergencyContactBuilder emergencyContactBuilder;
     @Autowired private InsuranceBuilder insuranceBuilder;
+    @Autowired private EmergencyContactBuilder emergencyContactBuilder;
+    @Autowired private InvoiceBuilder invoiceBuilder;
     @Autowired private VisitBuilder visitBuilder;
-    @Autowired private UserBuilder userBuilder;
     @Autowired private VitalSignsBuilder vitalSignsBuilder;
+    @Autowired private UserBuilder userBuilder;
 
-    public Patient toPatient(AdminController.CreatePatientRequest req) throws Exception {
-        if (req == null) throw new Exception("Solicitud inválida: paciente requerido");
+    public Patient toPatient(CreatePatientRequest r) throws Exception {
+        Integer age = parseInteger(r.getAge(), "age");
         return patientBuilder.create(
-                req.id,
-                req.fullName,
-                req.birthDate,
-                req.address,
-                req.phone,
-                req.email,
-                req.age == null ? null : Integer.valueOf(req.age),
-                req.gender,
+                r.getId(),
+                r.getFullName(),
+                r.getBirthDate(),
+                r.getAddress(),
+                r.getPhone(),
+                r.getEmail(),
+                age,
+                r.getGender(),
                 null,
                 null
         );
     }
 
-    public Patient toPatient(AdminController.UpdatePatientRequest req) throws Exception {
-        if (req == null) throw new Exception("Solicitud inválida: paciente requerido");
+    public Patient toPatient(UpdatePatientRequest r) throws Exception {
+        Integer age = parseInteger(r.getAge(), "age");
         return patientBuilder.create(
-                req.id,
-                req.fullName,
-                req.birthDate,
-                req.address,
-                req.phone,
-                req.email,
-                req.age == null ? null : Integer.valueOf(req.age),
-                req.gender,
+                r.getId(),
+                r.getFullName(),
+                r.getBirthDate(),
+                r.getAddress(),
+                r.getPhone(),
+                r.getEmail(),
+                age,
+                r.getGender(),
                 null,
                 null
         );
     }
 
-    public Invoice toInvoice(AdminController.CreateInvoiceRequest req) throws Exception {
-        if (req == null) throw new Exception("Solicitud inválida: factura requerida");
+    public Invoice toInvoice(CreateInvoiceRequest r) throws Exception {
+        Boolean active = parseBoolean(r.getPolicyActive());
         Insurance insurance = insuranceBuilder.create(
-                req.insuranceCompany,
-                req.policyNumber,
-                req.policyActive == null ? null : Boolean.valueOf(req.policyActive),
-                req.policyEndDate
+                r.getInsuranceCompany(),
+                r.getPolicyNumber(),
+                active,
+                r.getPolicyEndDate()
         );
+
+        Double total = parseDouble(r.getTotalAmount(), "totalAmount");
+        Double copay = parseDouble(r.getCopay(), "copay");
+        Double insurerCharge = parseDouble(r.getInsurerCharge(), "insurerCharge");
+
         return invoiceBuilder.create(
-                req.invoiceNumber,
-                req.patientId,
-                req.doctorId,
+                r.getInvoiceNumber(),
+                r.getPatientId(),
+                r.getDoctorId(),
                 insurance,
-                null,
-                req.totalAmount == null ? null : Double.valueOf(req.totalAmount),
-                req.copay == null ? null : Double.valueOf(req.copay),
-                req.insurerCharge == null ? null : Double.valueOf(req.insurerCharge)
+                null, // details opcional por ahora
+                total,
+                copay,
+                insurerCharge
         );
     }
 
-    public EmergencyContact toEmergencyContact(AdminController.CreateEmergencyContactRequest req) throws Exception {
-        if (req == null) throw new Exception("Solicitud inválida: contacto requerido");
-        return emergencyContactBuilder.create(
-                req.name,
-                req.phone,
-                req.relation
-        );
+    public EmergencyContact toEmergencyContact(CreateEmergencyContactRequest r) throws Exception {
+        return emergencyContactBuilder.create(r.getName(), r.getPhone(), r.getRelation());
     }
 
-    public Insurance toInsurance(AdminController.CreateInsuranceRequest req) throws Exception {
-        if (req == null) throw new Exception("Solicitud inválida: seguro requerido");
-        return insuranceBuilder.create(
-                req.insuranceCompany,
-                req.policyNumber,
-                req.policyActive == null ? null : Boolean.valueOf(req.policyActive),
-                req.policyEndDate
-        );
+    public Insurance toInsurance(CreateInsuranceRequest r) throws Exception {
+        Boolean active = parseBoolean(r.getPolicyActive());
+        return insuranceBuilder.create(r.getInsuranceCompany(), r.getPolicyNumber(), active, r.getPolicyEndDate());
     }
 
-    public Visit toVisit(AdminController.ScheduleVisitRequest req) throws Exception {
-        if (req == null) throw new Exception("Solicitud inválida: visita requerida");
-        VitalSigns vital = vitalSignsBuilder.create(
-                req.bloodPressure,
-                req.temperature == null ? null : Double.valueOf(req.temperature),
-                req.pulse == null ? null : Integer.valueOf(req.pulse),
-                req.oxygenLevel == null ? null : Double.valueOf(req.oxygenLevel)
-        );
-        return visitBuilder.create(
-                req.patientId,
-                req.nurseId,
-                vital
-        );
+    public Visit toVisit(ScheduleVisitRequest r) throws Exception {
+        Double temperature = parseDouble(r.getTemperature(), "temperature");
+        Integer pulse = parseInteger(r.getPulse(), "pulse");
+        Double oxygen = parseDouble(r.getOxygenLevel(), "oxygenLevel");
+        VitalSigns vs = vitalSignsBuilder.create(r.getBloodPressure(), temperature, pulse, oxygen);
+        return visitBuilder.create(r.getPatientId(), r.getNurseId(), vs);
     }
 
-    public User toUser(AdminController.UpdateUserRequest req) throws Exception {
-        if (req == null) throw new Exception("Solicitud inválida: usuario requerido");
+    public User toUser(UpdateUserRequest r) throws Exception {
+        Integer age = parseInteger(r.getAge(), "age");
         return userBuilder.create(
-                req.id,
-                req.fullName,
-                req.birthDate,
-                req.address,
-                req.phone,
-                req.email,
-                req.age == null ? null : Integer.valueOf(req.age),
-                req.username,
-                req.password,
-                req.role
+                r.getId(),
+                r.getFullName(),
+                r.getBirthDate(),
+                r.getAddress(),
+                r.getPhone(),
+                r.getEmail(),
+                age,
+                r.getUsername(),
+                r.getPassword(),
+                r.getRole()
         );
+    }
+
+    // Create user with forced role (ADMIN, NURSE, DOCTOR, HUMANRESOURCES, SUPPORT)
+    public User toUser(app.infrastructure.adapter.in.rest.admin.request.CreateUserRequest r, String roleForced) throws Exception {
+        Integer age = parseInteger(r.getAge(), "age");
+        return userBuilder.create(
+                null,
+                r.getFullName(),
+                r.getBirthDate(),
+                r.getAddress(),
+                r.getPhone(),
+                r.getEmail(),
+                age,
+                r.getUsername(),
+                r.getPassword(),
+                roleForced
+        );
+    }
+
+    private Integer parseInteger(String value, String field) throws Exception {
+        if (value == null || value.trim().isEmpty()) return null;
+        try { return Integer.parseInt(value.trim()); } catch (NumberFormatException e) { throw new Exception("Valor inválido para " + field + ": " + value, e);}    }
+    private Double parseDouble(String value, String field) throws Exception {
+        if (value == null || value.trim().isEmpty()) return null;
+        try { return Double.parseDouble(value.trim()); } catch (NumberFormatException e) { throw new Exception("Valor inválido para " + field + ": " + value, e);}  }
+    private Boolean parseBoolean(String value) {
+        if (value == null) return null;
+        return Boolean.parseBoolean(value.trim());
     }
 }

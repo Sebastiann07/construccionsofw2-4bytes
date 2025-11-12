@@ -1,149 +1,148 @@
 package app.infrastructure.adapter.in.rest.admin;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import app.application.usecases.AdminUseCase;
-import app.domain.model.*;
+import app.application.usecases.HumanResourcesUseCase;
+import app.domain.model.EmergencyContact;
+import app.domain.model.Insurance;
+import app.domain.model.Invoice;
+import app.domain.model.Patient;
+import app.domain.model.User;
+import app.domain.model.Visit;
+import app.infrastructure.adapter.in.rest.admin.request.CreateEmergencyContactRequest;
+import app.infrastructure.adapter.in.rest.admin.request.CreateInsuranceRequest;
+import app.infrastructure.adapter.in.rest.admin.request.CreateInvoiceRequest;
+import app.infrastructure.adapter.in.rest.admin.request.CreatePatientRequest;
+import app.infrastructure.adapter.in.rest.admin.request.CreateUserRequest;
+import app.infrastructure.adapter.in.rest.admin.request.ScheduleVisitRequest;
+import app.infrastructure.adapter.in.rest.admin.request.UpdatePatientRequest;
+import app.infrastructure.adapter.in.rest.admin.request.UpdateUserRequest;
+import app.infrastructure.adapter.in.rest.admin.response.CreateEmergencyContactResponse;
+import app.infrastructure.adapter.in.rest.admin.response.CreateInsuranceResponse;
+import app.infrastructure.adapter.in.rest.admin.response.CreateInvoiceResponse;
+import app.infrastructure.adapter.in.rest.admin.response.CreatePatientResponse;
+import app.infrastructure.adapter.in.rest.admin.response.ScheduleVisitResponse;
+import app.infrastructure.adapter.in.rest.admin.response.UpdatePatientResponse;
+import app.infrastructure.adapter.in.rest.admin.response.UpdateUserResponse;
+import app.infrastructure.adapter.in.rest.admin.response.UserResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin")
+@Validated
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
     private final AdminUseCase adminUseCase;
+    private final HumanResourcesUseCase hrUseCase;
     private final AdminMapper mapper;
+    private final AdminResponseMapper responseMapper;
 
-    public AdminController(AdminUseCase adminUseCase, AdminMapper mapper) {
+    public AdminController(AdminUseCase adminUseCase, HumanResourcesUseCase hrUseCase, AdminMapper mapper, AdminResponseMapper responseMapper) {
         this.adminUseCase = adminUseCase;
+        this.hrUseCase = hrUseCase;
         this.mapper = mapper;
+        this.responseMapper = responseMapper;
     }
 
     @PostMapping("/patients")
-    public ResponseEntity<CreatePatientResponse> createPatient(@RequestBody CreatePatientRequest request) throws Exception {
+    public ResponseEntity<CreatePatientResponse> createPatient(@Valid @RequestBody CreatePatientRequest request) throws Exception {
         Patient patient = mapper.toPatient(request);
         adminUseCase.createPatient(patient);
-        return ResponseEntity.ok(new CreatePatientResponse("Paciente creado", patient));
+        return ResponseEntity.ok(responseMapper.toCreatePatientResponse(patient));
     }
 
     @PutMapping("/patients")
-    public ResponseEntity<UpdatePatientResponse> updatePatient(@RequestBody UpdatePatientRequest request) throws Exception {
+    public ResponseEntity<UpdatePatientResponse> updatePatient(@Valid @RequestBody UpdatePatientRequest request) throws Exception {
         Patient patient = mapper.toPatient(request);
         adminUseCase.updatePatient(patient);
-        return ResponseEntity.ok(new UpdatePatientResponse("Paciente actualizado", patient));
+        return ResponseEntity.ok(responseMapper.toUpdatePatientResponse(patient));
     }
 
     @PostMapping("/invoices")
-    public ResponseEntity<CreateInvoiceResponse> createInvoice(@RequestBody CreateInvoiceRequest request) throws Exception {
+    public ResponseEntity<CreateInvoiceResponse> createInvoice(@Valid @RequestBody CreateInvoiceRequest request) throws Exception {
         Invoice invoice = mapper.toInvoice(request);
         adminUseCase.createInvoice(invoice);
-        return ResponseEntity.ok(new CreateInvoiceResponse("Factura creada", invoice));
+        return ResponseEntity.ok(responseMapper.toCreateInvoiceResponse(invoice));
     }
 
     @PostMapping("/emergency-contacts")
-    public ResponseEntity<CreateEmergencyContactResponse> createEmergencyContact(@RequestBody CreateEmergencyContactRequest request) throws Exception {
+    public ResponseEntity<CreateEmergencyContactResponse> createEmergencyContact(@Valid @RequestBody CreateEmergencyContactRequest request) throws Exception {
         EmergencyContact contact = mapper.toEmergencyContact(request);
         adminUseCase.createEmergencyContact(contact);
-        return ResponseEntity.ok(new CreateEmergencyContactResponse("Contacto de emergencia creado", contact));
+        return ResponseEntity.ok(responseMapper.toCreateEmergencyContactResponse(contact));
     }
 
     @PostMapping("/insurances")
-    public ResponseEntity<CreateInsuranceResponse> createInsurance(@RequestBody CreateInsuranceRequest request) throws Exception {
+    public ResponseEntity<CreateInsuranceResponse> createInsurance(@Valid @RequestBody CreateInsuranceRequest request) throws Exception {
         Insurance insurance = mapper.toInsurance(request);
         adminUseCase.createInsurance(insurance);
-        return ResponseEntity.ok(new CreateInsuranceResponse("Seguro creado", insurance));
+        return ResponseEntity.ok(responseMapper.toCreateInsuranceResponse(insurance));
     }
 
     @PostMapping("/visits")
-    public ResponseEntity<ScheduleVisitResponse> scheduleVisit(@RequestBody ScheduleVisitRequest request) throws Exception {
+    public ResponseEntity<ScheduleVisitResponse> scheduleVisit(@Valid @RequestBody ScheduleVisitRequest request) throws Exception {
         Visit visit = mapper.toVisit(request);
         adminUseCase.scheduleVisit(visit);
-        return ResponseEntity.ok(new ScheduleVisitResponse("Visita programada", visit));
+        return ResponseEntity.ok(responseMapper.toScheduleVisitResponse(visit));
     }
 
     @PutMapping("/users")
-    public ResponseEntity<UpdateUserResponse> updateUser(@RequestBody UpdateUserRequest request) throws Exception {
+    public ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserRequest request) throws Exception {
         User user = mapper.toUser(request);
         adminUseCase.updateUser(user);
-        return ResponseEntity.ok(new UpdateUserResponse("Usuario actualizado", user));
+        return ResponseEntity.ok(responseMapper.toUpdateUserResponse(user));
     }
 
-    // DTOs como clases internas para agrupar por rol
-    public static class CreatePatientRequest {
-        public String id;
-        public String fullName;
-        public String birthDate;
-        public String address;
-        public String phone;
-        public String email;
-        public String age;
-        public String gender;
+    // --- Endpoints para creación de usuarios por rol (alineado al ejemplo del profesor) ---
+    @PostMapping("/users/doctor")
+    public ResponseEntity<UserResponse> createDoctor(@Valid @RequestBody CreateUserRequest request) throws Exception {
+        User user = mapper.toUser(request, "DOCTOR");
+        hrUseCase.createUser(user);
+        return ResponseEntity.status(201).body(responseMapper.toUserResponse(user));
     }
-    public static class CreatePatientResponse { public String message; public Patient patient; public CreatePatientResponse(String m, Patient p){this.message=m;this.patient=p;} }
 
-    public static class UpdatePatientRequest {
-        public String id;
-        public String fullName;
-        public String birthDate;
-        public String address;
-        public String phone;
-        public String email;
-        public String age;
-        public String gender;
+    @PostMapping("/users/nurse")
+    public ResponseEntity<UserResponse> createNurse(@Valid @RequestBody CreateUserRequest request) throws Exception {
+        User user = mapper.toUser(request, "NURSE");
+        hrUseCase.createUser(user);
+        return ResponseEntity.status(201).body(responseMapper.toUserResponse(user));
     }
-    public static class UpdatePatientResponse { public String message; public Patient patient; public UpdatePatientResponse(String m, Patient p){this.message=m;this.patient=p;} }
 
-    public static class CreateInvoiceRequest {
-        public String invoiceNumber;
-        public String patientId;
-        public String doctorId;
-        public String insuranceCompany;
-        public String policyNumber;
-        public String policyActive;
-        public String policyEndDate;
-        public String totalAmount;
-        public String copay;
-        public String insurerCharge;
-        // Detalles podrían venir como lista; por simplicidad mantener como está en Mapper.
+    @PostMapping("/users/human-resources")
+    public ResponseEntity<UserResponse> createHumanResources(@Valid @RequestBody CreateUserRequest request) throws Exception {
+        User user = mapper.toUser(request, "HUMANRESOURCES");
+        hrUseCase.createUser(user);
+        return ResponseEntity.status(201).body(responseMapper.toUserResponse(user));
     }
-    public static class CreateInvoiceResponse { public String message; public Invoice invoice; public CreateInvoiceResponse(String m, Invoice i){this.message=m;this.invoice=i;} }
 
-    public static class CreateEmergencyContactRequest {
-        public String name;
-        public String phone;
-        public String relation;
+    @PostMapping("/users/support")
+    public ResponseEntity<UserResponse> createSupport(@Valid @RequestBody CreateUserRequest request) throws Exception {
+        User user = mapper.toUser(request, "SUPPORT");
+        hrUseCase.createUser(user);
+        return ResponseEntity.status(201).body(responseMapper.toUserResponse(user));
     }
-    public static class CreateEmergencyContactResponse { public String message; public EmergencyContact contact; public CreateEmergencyContactResponse(String m, EmergencyContact c){this.message=m;this.contact=c;} }
 
-    public static class CreateInsuranceRequest {
-        public String insuranceCompany;
-        public String policyNumber;
-        public String policyActive; // "true" | "false"
-        public String policyEndDate;
+    @PostMapping("/users/admin")
+    public ResponseEntity<UserResponse> createAdmin(@Valid @RequestBody CreateUserRequest request) throws Exception {
+        User user = mapper.toUser(request, "ADMIN");
+        hrUseCase.createUser(user);
+        return ResponseEntity.status(201).body(responseMapper.toUserResponse(user));
     }
-    public static class CreateInsuranceResponse { public String message; public Insurance insurance; public CreateInsuranceResponse(String m, Insurance i){this.message=m;this.insurance=i;} }
 
-    public static class ScheduleVisitRequest {
-        public String patientId;
-        public String nurseId;
-        public String bloodPressure;
-        public String temperature;
-        public String pulse;
-        public String oxygenLevel;
+    @GetMapping("/users")
+    public ResponseEntity<java.util.List<UserResponse>> listUsersByRole(@RequestParam(name = "role", required = false) String role) throws Exception {
+        // TODO: Implement proper retrieval via a dedicated port/service. Currently returns 501.
+        throw new UnsupportedOperationException("Listado de usuarios por rol pendiente de implementación (se requiere extensión de UserPort y adapter)");
     }
-    public static class ScheduleVisitResponse { public String message; public Visit visit; public ScheduleVisitResponse(String m, Visit v){this.message=m;this.visit=v;} }
-
-    public static class UpdateUserRequest {
-        public String id;
-        public String fullName;
-        public String birthDate;
-        public String address;
-        public String phone;
-        public String email;
-        public String age;
-        public String username;
-        public String password;
-        public String role;
-    }
-    public static class UpdateUserResponse { public String message; public User user; public UpdateUserResponse(String m, User u){this.message=m;this.user=u;} }
-
 }
