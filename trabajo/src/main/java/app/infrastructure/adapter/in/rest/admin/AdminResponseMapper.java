@@ -16,6 +16,7 @@ import app.infrastructure.adapter.in.rest.admin.response.ScheduleVisitResponse;
 import app.infrastructure.adapter.in.rest.admin.response.UpdatePatientResponse;
 import app.infrastructure.adapter.in.rest.admin.response.UpdateUserResponse;
 import app.infrastructure.adapter.in.rest.admin.response.UserResponse;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class AdminResponseMapper {
@@ -79,7 +80,12 @@ public class AdminResponseMapper {
             r.setPulse(v.getVitalSigns().getPulse());
             r.setOxygenLevel(v.getVitalSigns().getOxygenLevel());
         }
-        r.setVisitDate(v.getVisitDate() == null ? null : v.getVisitDate().withNano(0).toString());
+        if (v.getVisitDate() != null) {
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            r.setVisitDate(v.getVisitDate().format(fmt));
+        } else {
+            r.setVisitDate(null);
+        }
         return r;
     }
 
