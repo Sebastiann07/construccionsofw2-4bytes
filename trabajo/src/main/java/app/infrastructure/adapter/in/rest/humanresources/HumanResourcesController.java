@@ -1,48 +1,60 @@
 package app.infrastructure.adapter.in.rest.humanresources;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import app.application.usecases.HumanResourcesUseCase;
 import app.domain.model.User;
+import app.infrastructure.adapter.in.rest.humanresources.request.CreateUserRequest;
+import app.infrastructure.adapter.in.rest.humanresources.request.UpdateUserRequest;
+import app.infrastructure.adapter.in.rest.humanresources.response.UpdateUserResponse;
+import app.infrastructure.adapter.in.rest.humanresources.response.UserResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/hr")
+@PreAuthorize("hasRole('HUMANRESOURCES')")
+@Validated
 public class HumanResourcesController {
 
     private final HumanResourcesUseCase useCase;
-    private final HRMapper mapper = new HRMapper();
+
+    @Autowired private HRMapper hrMapper;
+    @Autowired private HRResponseMapper responseMapper;
 
     public HumanResourcesController(HumanResourcesUseCase useCase) {
         this.useCase = useCase;
     }
 
     @PostMapping("/users")
-    public ResponseEntity<CreateUserResponse> createUser(@RequestBody CreateUserRequest request) throws Exception {
-        User user = mapper.toUser(request);
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) throws Exception {
+        User user = hrMapper.toUser(request);
         useCase.createUser(user);
-        return ResponseEntity.ok(new CreateUserResponse("Usuario creado", user));
+        return new ResponseEntity<>(responseMapper.toUserResponse(user), HttpStatus.CREATED);
     }
 
     @PutMapping("/users")
-    public ResponseEntity<UpdateUserResponse> updateUser(@RequestBody UpdateUserRequest request) throws Exception {
-        User user = mapper.toUser(request);
+    public ResponseEntity<UpdateUserResponse> updateUser(@Valid @RequestBody UpdateUserRequest request) throws Exception {
+        User user = hrMapper.toUser(request);
         useCase.updateUser(user);
-        return ResponseEntity.ok(new UpdateUserResponse("Usuario actualizado", user));
+        return ResponseEntity.ok(responseMapper.toUpdateUserResponse(user));
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<DeleteUserResponse> deleteUser(@PathVariable("id") long id) throws Exception {
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable("id") long id) throws Exception {
         useCase.deleteUser(id);
-        return ResponseEntity.ok(new DeleteUserResponse("Usuario eliminado", id));
+        UserResponse resp = new UserResponse();
+        resp.setId(id);
+        return ResponseEntity.ok(resp);
     }
-
-    public static class CreateUserRequest { public User user; }
-    public static class CreateUserResponse { public String message; public User user; public CreateUserResponse(String m, User u){this.message=m;this.user=u;} }
-
-    public static class UpdateUserRequest { public User user; }
-    public static class UpdateUserResponse { public String message; public User user; public UpdateUserResponse(String m, User u){this.message=m;this.user=u;} }
-
-    public static class DeleteUserResponse { public String message; public long userId; public DeleteUserResponse(String m, long id){this.message=m;this.userId=id;} }
-
 }

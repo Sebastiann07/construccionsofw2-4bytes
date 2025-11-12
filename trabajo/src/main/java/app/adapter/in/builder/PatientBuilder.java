@@ -33,7 +33,11 @@ public class PatientBuilder {
 			Insurance insurance
 	) throws Exception {
 
-		String validId = patientValidator.idValidator(id);
+		// Permitir que el id venga nulo (se asumirá autogenerado en persistencia) y no forzar validación.
+		String validId = null;
+		if (id != null && !id.trim().isEmpty()) {
+			validId = patientValidator.idValidator(id);
+		}
 		String validName = personValidator.nameValidator(fullName);
 		String validBirth = personValidator.birthDateValidator(birthDate);
 		String validAddress = personValidator.addressValidator(address);
@@ -43,10 +47,15 @@ public class PatientBuilder {
 
 		Gender g = null;
 		if (gender != null && !gender.trim().isEmpty()) {
+			String normalized = gender.trim().toUpperCase();
+			// Aceptar iniciales comunes M / F y mapearlas
+			if ("M".equals(normalized)) normalized = "MALE";
+			else if ("F".equals(normalized)) normalized = "FEMALE";
+			else if ("O".equals(normalized)) normalized = "OTHER";
 			try {
-				g = Gender.valueOf(gender.trim().toUpperCase());
+				g = Gender.valueOf(normalized);
 			} catch (IllegalArgumentException ex) {
-				throw new Exception("Género inválido: " + gender);
+				throw new Exception("Género inválido: " + gender + " (valores permitidos: MALE/FEMALE/OTHER o M/F/O)");
 			}
 		}
 
@@ -59,7 +68,9 @@ public class PatientBuilder {
 		}
 
 		Patient p = new Patient();
-		p.setId(Long.parseLong(validId));
+		if (validId != null) {
+			p.setId(Long.parseLong(validId));
+		}
 		p.setFullName(validName);
 		p.setBirthDate(validBirth);
 		p.setAddress(validAddress);
