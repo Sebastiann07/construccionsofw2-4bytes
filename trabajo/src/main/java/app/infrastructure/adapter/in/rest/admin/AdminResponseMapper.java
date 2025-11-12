@@ -72,14 +72,14 @@ public class AdminResponseMapper {
         ScheduleVisitResponse r = new ScheduleVisitResponse();
         r.setVisitId(v.getVisitId());
         r.setPatientId(v.getPatient() == null ? 0 : v.getPatient().getId());
-        r.setNurseUsername(v.getNurse() == null ? null : v.getNurse().getUsername());
+        r.setNurseId(v.getNurse() == null ? 0 : v.getNurse().getId());
         if (v.getVitalSigns() != null) {
             r.setBloodPressure(v.getVitalSigns().getBloodPressure());
             r.setTemperature(v.getVitalSigns().getTemperature());
             r.setPulse(v.getVitalSigns().getPulse());
             r.setOxygenLevel(v.getVitalSigns().getOxygenLevel());
         }
-        r.setVisitDate(v.getVisitDate() == null ? null : v.getVisitDate().toString());
+        r.setVisitDate(v.getVisitDate() == null ? null : v.getVisitDate().withNano(0).toString());
         return r;
     }
 
