@@ -3,7 +3,7 @@ package app.infrastructure.adapter.in.rest.admin.response;
 public class ScheduleVisitResponse {
     private String visitId;
     private long patientId;
-    private String nurseUsername;
+    private long nurseId; // cambiado de nurseUsername a nurseId
     private String bloodPressure;
     private double temperature;
     private int pulse;
@@ -14,8 +14,8 @@ public class ScheduleVisitResponse {
     public void setVisitId(String visitId) { this.visitId = visitId; }
     public long getPatientId() { return patientId; }
     public void setPatientId(long patientId) { this.patientId = patientId; }
-    public String getNurseUsername() { return nurseUsername; }
-    public void setNurseUsername(String nurseUsername) { this.nurseUsername = nurseUsername; }
+    public long getNurseId() { return nurseId; }
+    public void setNurseId(long nurseId) { this.nurseId = nurseId; }
     public String getBloodPressure() { return bloodPressure; }
     public void setBloodPressure(String bloodPressure) { this.bloodPressure = bloodPressure; }
     public double getTemperature() { return temperature; }

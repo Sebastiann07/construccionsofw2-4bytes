@@ -29,7 +29,12 @@ public class VisitBuilder {
         }
 
         User nurse = new User();
-        nurse.setUsername(nid);
+        // Usar ID numérico para la enfermera en lugar de usarlo como username
+        try {
+            nurse.setId(Long.parseLong(nid));
+        } catch (NumberFormatException e) {
+            throw new Exception("El ID de la enfermera debe ser numérico: " + nid, e);
+        }
 
         Visit v = new Visit();
         v.setVisitId(UUID.randomUUID().toString());
