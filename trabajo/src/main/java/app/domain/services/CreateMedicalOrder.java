@@ -13,6 +13,7 @@ import app.domain.model.enums.Role;
 import app.domain.ports.MedicalOrderPort;
 import app.domain.ports.PatientPort;
 import app.domain.ports.UserPort;
+import app.application.exceptions.NotFoundException;
 
 /**
  * Caso de uso: crear una orden médica en la clínica.
@@ -60,7 +61,7 @@ public class CreateMedicalOrder {
         // Buscar el paciente
         Patient patient = patientPort.findById(patientId);
         if (patient == null) {
-            throw new Exception("La orden médica debe estar asociada a un paciente registrado");
+            throw new NotFoundException("La orden médica debe estar asociada a un paciente registrado");
         }
 
         // Generar fecha actual en formato de texto

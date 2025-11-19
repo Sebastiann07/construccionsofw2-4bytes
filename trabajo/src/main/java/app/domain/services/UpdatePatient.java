@@ -3,6 +3,7 @@ package app.domain.services;
 import app.domain.model.Patient;
 import app.domain.ports.PatientPort;
 import org.springframework.stereotype.Service;
+import app.application.exceptions.NotFoundException;
 
 @Service
 public class UpdatePatient {
@@ -17,6 +18,13 @@ public class UpdatePatient {
         if (patient == null) {
             throw new Exception("El paciente no puede ser nulo");
         }
+
+        // Verificar que el paciente exista antes de actualizar
+        Patient existing = patientPort.findById(patient.getId());
+        if (existing == null) {
+            throw new NotFoundException("El paciente no existe");
+        }
+
         patientPort.update(patient);
     }
 }

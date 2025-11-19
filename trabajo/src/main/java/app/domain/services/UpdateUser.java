@@ -3,6 +3,7 @@ package app.domain.services;
 import org.springframework.stereotype.Service;
 import app.domain.model.User;
 import app.domain.ports.UserPort;
+import app.application.exceptions.NotFoundException;
 
 /**
  * Servicio de dominio para actualizar datos de usuarios existentes.
@@ -23,7 +24,7 @@ public class UpdateUser {
 
         User existingUser = userPort.findByUsername(user.getUsername());
         if (existingUser == null) {
-            throw new Exception("No existe un usuario con este nombre");
+            throw new NotFoundException("No existe un usuario con este nombre");
         }
 
         userPort.update(user); // Reutilizamos update() para actualizar

@@ -3,6 +3,7 @@ package app.domain.services;
 import org.springframework.stereotype.Service;
 import app.domain.model.User;
 import app.domain.ports.UserPort;
+import app.application.exceptions.NotFoundException;
 
 /**
  * Servicio de dominio para eliminar usuarios del sistema.
@@ -23,7 +24,7 @@ public class DeleteUser {
 
         User existingUser = userPort.findById(userId);
         if (existingUser == null) {
-            throw new Exception("El usuario no existe en el sistema");
+            throw new NotFoundException("El usuario no existe en el sistema");
         }
 
         userPort.delete(existingUser);

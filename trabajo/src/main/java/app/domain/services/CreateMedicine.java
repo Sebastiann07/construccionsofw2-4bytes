@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import app.domain.model.Medicine;
 import app.domain.ports.MedicinePort;
+import app.application.exceptions.NotFoundException;
 
 /**
  * Caso de uso: gestionar medicamentos.
@@ -32,7 +33,7 @@ public class CreateMedicine {
 
     public void update(Medicine medicine) throws Exception {
         if (medicinePort.findByMedicineId(medicine.getMedicineId()) == null) {
-            throw new Exception("No existe un medicamento con este ID para actualizar");
+            throw new NotFoundException("No existe un medicamento con este ID para actualizar");
         }
 
         medicinePort.update(medicine);
@@ -40,7 +41,7 @@ public class CreateMedicine {
 
     public void delete(Medicine medicine) throws Exception {
         if (medicinePort.findByMedicineId(medicine.getMedicineId()) == null) {
-            throw new Exception("No existe un medicamento con este ID para eliminar");
+            throw new NotFoundException("No existe un medicamento con este ID para eliminar");
         }
 
         medicinePort.delete(medicine);
